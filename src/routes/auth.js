@@ -72,10 +72,14 @@ router.post('/sign-up', (req, res, next) => {
   }
 
   users[userId] = req.body
-  DataUtil.writeUsers(users)
-
-  setSignedInCookie(res, userId)
-  res.redirect('/')
+    try {
+      DataUtil.writeUsers(users)
+      setSignedInCookie(res, userId)
+      res.redirect('/')
+    } catch(e) {
+      console.log(e);
+      return next(createError(500, `Cannot write to file!`))
+    }
 })
 
 module.exports = router
