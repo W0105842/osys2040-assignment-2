@@ -1,15 +1,19 @@
-var express = require('express')
-var DataUtil = require('../utils/DataUtil')
+const express = require('express')
+const PostgresUtil = require('../utils/PostgresUtil')
 
-var router = express.Router()
+const router = express.Router()
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  var users = DataUtil.readUsers()
-  var userIds = Object.keys(users)
+router.get('/', async function(req, res, next) {
+  const result = await PostgresUtil.pool.query(
+    'SELECT * FROM app_users')
+
+  const users = result.rows.map(function(user) {
+    return user.handle
+  })
+
   res.render('users', {
     users: users,
-    userIds: userIds,
   })
 })
 

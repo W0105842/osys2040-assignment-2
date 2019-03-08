@@ -6,17 +6,17 @@
   </head>
   <body>
     <h1>
-      <%= userIds.length %>
-      User<%= (!userIds.length || userIds.length > 1) ? "s" : "" %>
+      <%= users.length %>
+      User<%= (!users.length || users.length > 1) ? "s" : "" %>
     </h1>
     <ul>
 
-      <% userIds.forEach(function(userId) { %>
+      <% users.forEach(function(handle) { %>
 
         <li>
-          <%= userId %>
+          <%= handle %>
 
-          <% if (userId === req.cookies.userId) { %>
+          <% if (handle === req.cookies.handle) { %>
             <b>(you)</b>
           <% } %>
 

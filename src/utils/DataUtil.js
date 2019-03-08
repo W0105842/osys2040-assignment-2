@@ -21,9 +21,9 @@ function writeDataFile(name, data) {
 }
 
 module.exports = {
-  readUsers: () => readDataFile('users'),
-  writeUsers: (data) => writeDataFile('users', data),
+  readUsers: function() { return readDataFile('users') },
+  writeUsers: function(data) { return writeDataFile('users', data) },
 
-  readRooms: () => readDataFile('chat-rooms'),
-  writeRooms: (data) => writeDataFile('chat-rooms', data),
+  readRooms: function() { return readDataFile('chat-rooms') },
+  writeRooms: function(data) { return writeDataFile('chat-rooms', data) },
 }

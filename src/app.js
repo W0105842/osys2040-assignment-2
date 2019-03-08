@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(require('./middleware/signed-in-as.js'))
 
-app.use((req, res, next) => {
+app.use(function(req, res, next) {
   // make `req` available to EJS
   res.locals.req = req
   next()
@@ -27,7 +27,6 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users.js'))
 app.use('/auth', require('./routes/auth.js'))
-app.use('/chat', require('./routes/chat.js'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
