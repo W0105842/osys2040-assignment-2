@@ -6,11 +6,11 @@ const jwt = require('jsonwebtoken')
 
 var router = express.Router()
 
-router.get('/sign-in', function(req, res, next) {
+router.get('/auth/sign-in', function(req, res, next) {
   res.render('sign-in')
 })
 
-router.post('/sign-in', async function(req, res, next) {
+router.post('/auth/sign-in', async function(req, res, next) {
   var handle = req.body.handle
   if (!handle) {
     return next(createError(400, 'missing handle'))
@@ -40,7 +40,7 @@ function setSignedInCookie(res, handle) {
   }))
 }
 
-router.get('/sign-out', function(req, res, next) {
+router.get('/auth/sign-out', function(req, res, next) {
   res.setHeader('Set-Cookie', cookie.serialize('token', ' ', {
     httpOnly: true,
     maxAge: 0, // expire immediately
@@ -50,11 +50,11 @@ router.get('/sign-out', function(req, res, next) {
   res.redirect('/')
 })
 
-router.get('/sign-up', function(req, res, next) {
+router.get('/auth/sign-up', function(req, res, next) {
   res.render('sign-up')
 })
 
-router.post('/sign-up', async function(req, res, next) {
+router.post('/auth/sign-up', async function(req, res, next) {
   var handle = req.body.handle
   if (!handle) {
     return next(createError(400, 'missing handle'))

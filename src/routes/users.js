@@ -4,7 +4,7 @@ const Users = require('../model/users')
 const router = express.Router()
 
 /* GET users listing. */
-router.get('/', async function(req, res, next) {
+router.get('/users', async function(req, res, next) {
   const users = await Users.getUsers()
 
   const handles = users.map(function(user) {

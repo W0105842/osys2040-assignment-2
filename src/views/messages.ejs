@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Messages</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= messages.length %> Messages</h1>
+
+    <ul>
+      <% messages.forEach(function(message){ %>
+        <li>
+          <%= message.created_by %>: <%= message.data.message %>
+          <br/>
+
+          <!-- TODO: Make this prettier -->
+          likeCount: <%= likeCount %>
+          iLikeThis: <%= iLikeThis %>
+          <form action="/chat/<%=message.id%>/like" method="post">
+            <input type="hidden" id="like" name="like" value="<%=!iLikeThis%>">
+            <button type="submit">Like</button>
+          </form>
+
+        </li>
+      <% }) %>
+    </ul>
+
+    <% if (signedInAs) { %>
+      <div>Hi <%= signedInAs %>, leave a message:</div>
+
+      <form action="/chat/create-message" method="post">
+        <div>
+          <label for="message">Message:</label>
+          <textarea type="text" id="message" name="message" required cols="40" rows="2"></textarea>
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    <% } %>
+
+    <%- include('./includes/page-footer.ejs') %>
+
+  </body>
+</html>
