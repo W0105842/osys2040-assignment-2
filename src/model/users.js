@@ -1,4 +1,4 @@
-const PostgresUtil = require('./PostgresUtil')
+const PostgresUtil = require('../utils/PostgresUtil')
 const bcrypt = require('bcrypt-nodejs')
 
 async function createUserTable() {
@@ -34,33 +34,18 @@ async function createUser(handle, password) {
   }
 }
 
-async function validateUser(handle, password) {
+async function getUser(handle) {
   try {
-    // look up user with the passed handle
     const result = await PostgresUtil.pool.query(
       'SELECT * FROM app_users WHERE handle = $1::text',
       [ handle ])
 
-    // determine if we found a user with that handle
-    const foundUser = result.rows[0]
-    if (!foundUser) {
-      throw new Error(`no user with handle ${handle}`)
-    }
-
-    // check that the password matches the one used to create the hash
-    const passwordHash = foundUser.password_hash
-    if (!passwordHash) {
-      console.log('foundUser:', foundUser)
-      throw new Error('password hash not found - time for a database refresh?')
-    }
-    if (!bcrypt.compareSync(password, passwordHash)) {
-      throw new Error('incorrect password')
-    }
+    return result.rows[0]
   } catch (exception) {
     if (exception.code === '42P01') {
       // 42P01 - table is missing - we'll create it and try again
       await createUserTable()
-      return validateUser(handle, password)
+      return getUser(handle)
     } else {
       // unrecognized, throw error to caller
       console.error(exception)
@@ -69,8 +54,49 @@ async function validateUser(handle, password) {
   }
 }
 
+async function getUsers() {
+  try {
+    const result = await PostgresUtil.pool.query(
+      'SELECT * FROM app_users')
+
+    return result.rows
+  } catch (exception) {
+    if (exception.code === '42P01') {
+      // 42P01 - table is missing - we'll create it and try again
+      await createUserTable()
+      return getUsers()
+    } else {
+      // unrecognized, throw error to caller
+      console.error(exception)
+      throw exception
+    }
+  }
+}
+
+async function validateUser(handle, password) {
+  // look up user with the passed handle
+  const user = await getUser(handle)
+
+  // determine if we found a user with that handle
+  if (!user) {
+    throw new Error(`no user with handle ${handle}`)
+  }
+
+  // check that the password matches the one used to create the hash
+  const passwordHash = user.password_hash
+  if (!passwordHash) {
+    console.log('foundUser:', user)
+    throw new Error('password hash not found - time for a database refresh?')
+  }
+  if (!bcrypt.compareSync(password, passwordHash)) {
+    throw new Error('incorrect password')
+  }
+}
+
 module.exports = {
   createUser: createUser,
+  getUser: getUser,
+  getUsers: getUsers,
   validateUser: validateUser,
   // TODO: read from environment variable
   JWT_SECRET: 'There once was a person studying at the NSCC',

@@ -2,6 +2,13 @@
 
 ## To run server locally
 
+With local Postgresql:
+
+Bash:
+  $ npm run watch-heroku
+
+With Heroku Postgresql:
+
 First we gather parameters.
 
   In Heroku:
@@ -15,12 +22,12 @@ First we gather parameters.
 Then we run the command line:
 
 Bash:
-  $ DATABASE_URL=postgres://blahblah npm run watch
+  $ DATABASE_URL=postgres://blahblah npm run watch-heroku
 
-The first part "DATABASE_URL=postgres://blahblah" sets the DATABASE_URL environment variable for the process started with "npm run watch".
+The first part "DATABASE_URL=postgres://blahblah" sets the DATABASE_URL environment variable for the process started with "npm run watch-heroku".
 
 Windows CMD:
-  set DATABASE_URL=postgres://blahblah npm run watch
+  set DATABASE_URL=postgres://blahblah npm run watch-heroku
 
 Paper on web app setup: https://12factor.net/
    -- it will make you better --

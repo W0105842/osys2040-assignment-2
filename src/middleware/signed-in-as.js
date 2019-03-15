@@ -1,4 +1,4 @@
-const AuthUtil = require('../utils/AuthUtil')
+const Users = require('../model/users')
 const cookie = require('cookie')
 const jwt = require('jsonwebtoken')
 const PostgresUtil = require('../utils/PostgresUtil')
@@ -14,7 +14,7 @@ module.exports = async function(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, AuthUtil.JWT_SECRET)
+    const decoded = jwt.verify(token, Users.JWT_SECRET)
     handle = decoded.handle
   } catch (exception) {
     console.log(exception)
@@ -28,12 +28,8 @@ module.exports = async function(req, res, next) {
     return next()
   }
 
-  const result = await PostgresUtil.pool.query(
-    'SELECT * FROM app_users WHERE handle = $1::text',
-    [ handle ])
-
-  const foundUser = result.rows[0]
-  if (foundUser) {
+  const user = await Users.getUser(handle)
+  if (user) {
     res.locals.signedInAs = handle
   }
 

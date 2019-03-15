@@ -1,19 +1,18 @@
 const express = require('express')
-const PostgresUtil = require('../utils/PostgresUtil')
+const Users = require('../model/users')
 
 const router = express.Router()
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
-  const result = await PostgresUtil.pool.query(
-    'SELECT * FROM app_users')
+  const users = await Users.getUsers()
 
-  const users = result.rows.map(function(user) {
+  const handles = users.map(function(user) {
     return user.handle
   })
 
   res.render('users', {
-    users: users,
+    users: handles,
   })
 })
 

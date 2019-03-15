@@ -1,6 +1,6 @@
 const createError = require('http-errors')
 const express = require('express')
-const AuthUtil = require('../utils/AuthUtil')
+const Users = require('../model/users')
 const cookie = require('cookie')
 const jwt = require('jsonwebtoken')
 
@@ -21,7 +21,7 @@ router.post('/sign-in', async function(req, res, next) {
   }
 
   try {
-    await AuthUtil.validateUser(handle, password)
+    await Users.validateUser(handle, password)
     setSignedInCookie(res, handle)
     res.redirect('/')
   } catch (exception) {
@@ -30,7 +30,7 @@ router.post('/sign-in', async function(req, res, next) {
 })
 
 function setSignedInCookie(res, handle) {
-  const token = jwt.sign({ handle: handle }, AuthUtil.JWT_SECRET)
+  const token = jwt.sign({ handle: handle }, Users.JWT_SECRET)
 
   res.setHeader('Set-Cookie', cookie.serialize('token', token, {
     httpOnly: true,
@@ -65,7 +65,7 @@ router.post('/sign-up', async function(req, res, next) {
   }
 
   try {
-    await AuthUtil.createUser(handle, password)
+    await Users.createUser(handle, password)
 
     setSignedInCookie(res, handle)
 
