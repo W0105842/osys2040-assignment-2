@@ -8,9 +8,7 @@ router.get('/users', async function(req, res, next) {
   const handles = users.map(function(user) {
     return user.handle
   })
-  res.render('users', {
-    users: handles,
-  })
+  res.render('users', {users: handles})
 })
 
 module.exports = router
