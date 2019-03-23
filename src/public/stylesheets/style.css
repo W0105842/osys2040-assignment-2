@@ -3,6 +3,8 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
+a.nav-link {
   color: #00B7FF;
+  font-size: 1.2em;
+  margin: 5px 20px;
 }

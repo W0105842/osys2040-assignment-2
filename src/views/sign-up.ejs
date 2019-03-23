@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <nav><%- include('./includes/nav-links.ejs') %></nav>
     <title>Sign Up</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
@@ -9,16 +10,13 @@
     <form action="/auth/sign-up" method="post">
       <div>
         <label for="handle">Handle:</label>
-        <input type="text" id="handle" name="handle" required minlength="4" maxlength="20">
+        <input type="text" id="handle" name="handle" minlength="4" maxlength="20">
       </div>
       <div>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required minlength="4" maxlength="30">
+        <input type="password" id="password" name="password" minlength="4" maxlength="30">
       </div>
       <button type="submit">Sign Up</button>
     </form>
-
-    <%- include('./includes/page-footer.ejs') %>
-
   </body>
 </html>

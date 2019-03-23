@@ -12,19 +12,15 @@ async function createMessageTable() {
 async function createMessage(handle, data) {
   try {
     const result = await PostgresUtil.pool.query(
-      'INSERT INTO messages (created_by, data) VALUES ($1::text, $2::jsonb);',
-      [
-        handle, data
-      ])
-
+      'INSERT INTO messages (created_by, data) VALUES ($1::text, $2::jsonb);', [handle, data])
     return result
   } catch (exception) {
     if (exception.code === '42P01') {
-      // 42P01 - table is missing - we'll create it and try again
+      // 42P01 - Table is missing so we'll create it and try again
       await createMessageTable()
       return createMessage(handle, data)
     } else {
-      // unrecognized, throw error to caller
+      // Unrecognized...throw error to caller
       console.error(exception)
       throw exception
     }
@@ -35,15 +31,14 @@ async function getMessages() {
   try {
     const result = await PostgresUtil.pool.query(
       'SELECT * FROM messages')
-
     return result.rows
-  } catch (exception) {
+  } catch(exception) {
     if (exception.code === '42P01') {
-      // 42P01 - table is missing - we'll create it and try again
+      // 42P01 - Table is missing so we'll create it and try again
       await createMessageTable()
       return getMessages()
     } else {
-      // unrecognized, throw error to caller
+      // Unrecognized...throw error to caller
       console.error(exception)
       throw exception
     }

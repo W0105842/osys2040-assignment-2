@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Application Name</title>
+    <title>assignment 2</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1>Application Name</h1>
-    <p>Welcome <%= signedInAs %></p>
-
-    <%- include('./includes/page-footer.ejs') %>
-
+    <h1>Cool coffee shops of Halifax</h1>
+    <p>Welcome<% if(signedInAs){%>, <%=signedInAs%><%}%></p>
+    <%- include('./includes/nav-links.ejs') %>
   </body>
 </html>

@@ -11,13 +11,8 @@ async function createUserTable() {
 async function createUser(handle, password) {
   try {
     const passwordHash = bcrypt.hashSync(password)
-
     const result = await PostgresUtil.pool.query(
-      'INSERT INTO app_users VALUES ($1::text, $2::text);',
-      [
-        handle, passwordHash
-      ])
-
+      'INSERT INTO app_users VALUES ($1::text, $2::text);', [handle, passwordHash])
     return result
   } catch (exception) {
     if (exception.code === '42P01') {
@@ -37,9 +32,7 @@ async function createUser(handle, password) {
 async function getUser(handle) {
   try {
     const result = await PostgresUtil.pool.query(
-      'SELECT * FROM app_users WHERE handle = $1::text',
-      [ handle ])
-
+      'SELECT * FROM app_users WHERE handle = $1::text', [handle])
     return result.rows[0]
   } catch (exception) {
     if (exception.code === '42P01') {
@@ -58,7 +51,6 @@ async function getUsers() {
   try {
     const result = await PostgresUtil.pool.query(
       'SELECT * FROM app_users')
-
     return result.rows
   } catch (exception) {
     if (exception.code === '42P01') {
@@ -76,21 +68,12 @@ async function getUsers() {
 async function validateUser(handle, password) {
   // look up user with the passed handle
   const user = await getUser(handle)
-
   // determine if we found a user with that handle
-  if (!user) {
-    throw new Error(`no user with handle ${handle}`)
-  }
-
+  if(!user) throw new Error(`no user with handle ${handle}`)
   // check that the password matches the one used to create the hash
   const passwordHash = user.password_hash
-  if (!passwordHash) {
-    console.log('foundUser:', user)
-    throw new Error('password hash not found - time for a database refresh?')
-  }
-  if (!bcrypt.compareSync(password, passwordHash)) {
-    throw new Error('incorrect password')
-  }
+  if(!passwordHash) throw new Error('password hash not found - time for a database refresh?')
+  if(!bcrypt.compareSync(password, passwordHash)) throw new Error('incorrect password')
 }
 
 module.exports = {

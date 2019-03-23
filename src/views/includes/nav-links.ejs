@@ -1,3 +1,9 @@
-<a href="/">Home</a>
-<a href="/users">Users</a>
-<a href="/chat">Chat</a>
+<a class="nav-link" href="/">Home</a>
+<a class="nav-link"href="/users">Users</a>
+<a class="nav-link"href="/chat">Chat</a>
+<% if(signedInAs) { %>
+    Signed in as <%= signedInAs %><a class="nav-link" href="/auth/sign-out">Sign Out</a>
+<% } else { %>
+    <a class="nav-link" href="/auth/sign-in">Sign In</a>
+    <a class="nav-link" href="/auth/sign-up">Sign Up</a>
+<% } %>

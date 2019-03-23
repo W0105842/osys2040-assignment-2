@@ -10,23 +10,15 @@
       User<%= (!users.length || users.length > 1) ? "s" : "" %>
     </h1>
     <ul>
-
       <% users.forEach(function(handle) { %>
-
         <li>
           <%= handle %>
-
-          <% if (handle === req.cookies.handle) { %>
+          <% if(handle === req.cookies.handle) { %>
             <b>(you)</b>
           <% } %>
-
         </li>
-
       <% }) %>
-
     </ul>
-
     <%- include('./includes/page-footer.ejs') %>
-
   </body>
 </html>

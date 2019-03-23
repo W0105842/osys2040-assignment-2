@@ -5,6 +5,4 @@ const pool = new Pool({
   // ssl: true,
 })
 
-module.exports = {
-  pool,
-}
+module.exports = {pool}
