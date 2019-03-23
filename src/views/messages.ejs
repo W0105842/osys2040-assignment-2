@@ -2,42 +2,34 @@
 <html>
   <head>
     <title>Messages</title>
+    <%- include('./includes/nav-links.ejs') %>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1><%= messages.length %> Messages</h1>
-
+    <h1>So far, <%= messages.length %> message(s) have been posted :</h1>
     <ul>
       <% messages.forEach(function(message){ %>
         <li>
-          <%= message.created_by %>: <%= message.data.message %>
-          <br/>
-
-          <!-- TODO: Make this prettier -->
+          "<%= message.data.message %>"<br>
+          <em>(by <%= message.created_by %>)</em><br> 
           likeCount: <%= likeCount %>
           iLikeThis: <%= iLikeThis %>
           <form action="/chat/<%=message.id%>/like" method="post">
             <input type="hidden" id="like" name="like" value="<%=!iLikeThis%>">
-            <button type="submit">Like</button>
+            <button class="likeButton" type="submit">Like</button>
           </form>
-
-        </li>
+        </li><br>
       <% }) %>
     </ul>
-
-    <% if (signedInAs) { %>
-      <div>Hi <%= signedInAs %>, leave a message:</div>
-
+    <% if(signedInAs) { %>
+      <p>Hi <%= signedInAs %>, leave a message :</p>
       <form action="/chat/create-message" method="post">
         <div>
-          <label for="message">Message:</label>
+          <!-- <label for="message">Message : </label> -->
           <textarea type="text" id="message" name="message" required cols="40" rows="2"></textarea>
         </div>
         <button type="submit">Create</button>
       </form>
     <% } %>
-
-    <%- include('./includes/page-footer.ejs') %>
-
   </body>
 </html>

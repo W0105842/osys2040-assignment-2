@@ -2,11 +2,11 @@
 <html>
   <head>
     <title>assignment 2</title>
+    <nav><%- include('./includes/nav-links.ejs') %></nav>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <h1>Cool coffee shops of Halifax</h1>
     <p>Welcome<% if(signedInAs){%>, <%=signedInAs%><%}%></p>
-    <%- include('./includes/nav-links.ejs') %>
   </body>
 </html>

@@ -16,13 +16,13 @@ async function createUser(handle, password) {
     return result
   } catch (exception) {
     if (exception.code === '42P01') {
-      // 42P01 - table is missing - we'll create it and try again
+      // 42P01 - Table is missing so we'll create it and try again
       await createUserTable()
       return createUser(handle, password)
     } else if (exception.code === '23505') {
       throw new Error(`User ${handle} already exists`)
     } else {
-      // unrecognized, throw error to caller
+      // Unrecognized, throw error to caller
       console.error(exception)
       throw exception
     }
@@ -36,11 +36,11 @@ async function getUser(handle) {
     return result.rows[0]
   } catch (exception) {
     if (exception.code === '42P01') {
-      // 42P01 - table is missing - we'll create it and try again
+      // 42P01 - Table is missing so we'll create it and try again
       await createUserTable()
       return getUser(handle)
     } else {
-      // unrecognized, throw error to caller
+      // Unrecognized, throw error to caller
       console.error(exception)
       throw exception
     }
@@ -54,11 +54,11 @@ async function getUsers() {
     return result.rows
   } catch (exception) {
     if (exception.code === '42P01') {
-      // 42P01 - table is missing - we'll create it and try again
+      // 42P01 - Table is missing so we'll create it and try again
       await createUserTable()
       return getUsers()
     } else {
-      // unrecognized, throw error to caller
+      // Unrecognized, throw error to caller
       console.error(exception)
       throw exception
     }
@@ -66,11 +66,11 @@ async function getUsers() {
 }
 
 async function validateUser(handle, password) {
-  // look up user with the passed handle
+  // Look up user with the passed handle
   const user = await getUser(handle)
-  // determine if we found a user with that handle
+  // Determine if we found a user with that handle
   if(!user) throw new Error(`no user with handle ${handle}`)
-  // check that the password matches the one used to create the hash
+  // Check that the password matches the one used to create the hash
   const passwordHash = user.password_hash
   if(!passwordHash) throw new Error('password hash not found - time for a database refresh?')
   if(!bcrypt.compareSync(password, passwordHash)) throw new Error('incorrect password')

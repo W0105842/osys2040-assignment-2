@@ -4,7 +4,36 @@ body {
 }
 
 a.nav-link {
-  color: #00B7FF;
+  color: #0F13E8;
   font-size: 1.2em;
   margin: 5px 20px;
+}
+
+p {
+  font-size: 1.2em;
+  font-style: italic;
+}
+
+label, input {
+  margin: 10px 0px;
+  font-size: 1.2em;
+}
+
+form {
+  width: 30%;
+}
+
+button:not(.likeButton) {
+  margin-top: 15px;
+  font-size: 1.1em;
+}
+
+button.likeButton {
+  background-color: #24E86E;
+  color: black;
+}
+
+li {
+  font-size: 1.3em;
+  margin: 5px 0px;
 }
