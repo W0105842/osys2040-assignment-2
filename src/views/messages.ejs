@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <!-- <head>
+  <head>
     <title>Messages</title>
     <%- include('./includes/nav-links.ejs') %>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <body> -->
-    <!-- <h1>So far, <%= messages.length %> message(s) have been posted :</h1> -->
-    <!-- <ul>
-      <% messages.forEach(function(message) { %>
-        <%= let likesCount = 0;
-        likes.forEach(function(like) {
-          if like.messageId = message.id likesCount += 1;
-          return likesCount;
-        })%>
-        <li>
-          "<%= message.data.message %>"<br>
-          <em>(by <%= message.created_by %>)</em><br> 
-          <form action="/chat/<%=message.id%>/like" method="post">
-            <input type="hidden" id="like" name="like" value="<%=!iLikeThis%>">
-            <button class="likeButton" type="submit">Like</button> 
-          </form>
-        </li><br>
-      <% }) %>
-    </ul> -->
-    <!-- <% if(signedInAs) { %>
-      <p>Hi <%= signedInAs %>, leave a message :</p>
-      <form action="/chat/create-message" method="post">
-        <div>
-          <textarea type="text" id="message" name="message" required cols="40" rows="2"></textarea>
-        </div>
-        <button type="submit">Create</button>
-      </form>
-    <% } %>
-  </body> -->
-</html>
+  <body>
+    <h1>So far, <%= messages.length %> message<%= (!messages.length || messages.length > 1) ? "s" : "" %><%= (!messages.length || messages.length > 1) ? " have" : " has" %> been posted :</h1>
+    <ul>
+        <% messages.forEach(function(message) { 
+            let likeNotice = "";
+            let likesCount = 0;
+            likes.forEach(function(like) {
+              if(like.for_message == message.id) likesCount += 1;
+              if(like.created_by == signedInAs && like.for_message == message.id) likeNotice = "(You already liked this.)"
+            })%> 
+            <li>
+                "<%= message.message %>"<br>
+                <em>(by <%= message.created_by %>)</em><br> 
+                <form action="/chat/<%=message.id%>/like" method="post">
+                  <input type="hidden" id="like" name="like" value="<%=!iLikeThis%>"><br>
+                  <button class="likeButton" type="submit">Like</button> 
+                  <%= likesCount %> like<%= (likesCount == 0 || likesCount > 1) ? "s" : "" %>
+                  <%= likeNotice %>
+                </form>
+            </li><br><br>
+        <% }) %>
+    </ul>
+    <% if(signedInAs) { %>
+        <p>Hi <%= signedInAs %>, leave a message :</p>
+        <form action="/chat/create-message" method="post">
+          <div>
+            <textarea type="text" id="message" name="message" cols="40" rows="2"></textarea>
+          </div>
+          <button type="submit">Create</button>
+        </form>
+      <% } %>
+    </body>
+  </html>

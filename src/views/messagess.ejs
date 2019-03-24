@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Messages</title>
+    <%- include('./includes/nav-links.ejs') %>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1>So far, <%= messages.length %> message(s) have been posted :</h1>
+    <ul>
+      <% messages.forEach(function(message){ %>
+        <!-- <%= let likesCount = 0;
+        likes.forEach(function(like) {
+          if like.messageId = message.id likesCount += 1;
+          return likesCount;
+        })%> -->
+        <li>
+          "<%= message.message %>"<br>
+          <em>(by <%= message.created_by %>)</em><br> 
+          <form action="/chat/<%=message.id%>/like" method="post">
+            <input type="hidden" id="like" name="like" value="<%=!iLikeThis%>">
+            <button class="likeButton" type="submit">Like</button> 
+          </form>
+        </li><br>
+      <% }) %>
+    </ul>
+    <% if(signedInAs) { %>
+      <p>Hi <%= signedInAs %>, leave a message :</p>
+      <form action="/chat/create-message" method="post">
+        <div>
+          <textarea type="text" id="message" name="message" required cols="40" rows="2"></textarea>
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    <% } %>
+  </body>
+</html>

@@ -1,32 +1,6 @@
 const PostgresUtil = require('../utils/PostgresUtil')
 
-async function createMessageTable() {
-  return await PostgresUtil.pool.query(`CREATE TABLE messages (
-    id          SERIAL PRIMARY KEY,
-    created_at  TIMESTAMP DEFAULT NOW(),
-    created_by  VARCHAR(30) REFERENCES app_users(handle),
-    message     VARCHAR(200)
-  )`)
-}
-
-async function createMessage(handle, data) {
-  try {
-    const result = await PostgresUtil.pool.query(
-      'INSERT INTO messages (created_by, data) VALUES ($1::text, $2::message);', [handle, data])
-    return result
-  } catch (exception) {
-    if (exception.code === '42P01') {
-      // 42P01 - Table is missing so we'll create it and try again
-      await createMessageTable()
-      return createMessage(handle, data)
-    } else {
-      // Unrecognized...throw error to caller
-      console.error(exception)
-      throw exception
-    }
-  }
-}
-
+// Fetch all messages
 async function getMessages() {
   try {
     const result = await PostgresUtil.pool.query(
@@ -43,6 +17,35 @@ async function getMessages() {
       throw exception
     }
   }
+}
+
+// Add a new message
+async function createMessage(handle, message) {
+  try {
+    const result = await PostgresUtil.pool.query(
+      'INSERT INTO messages (created_by, message) VALUES ($1::text, $2::text);', [handle, message])
+    return result
+  } catch (exception) {
+    if (exception.code === '42P01') {
+      // 42P01 - Table is missing so we'll create it and try again
+      await createMessageTable()
+      return createMessage(handle, message)
+    } else {
+      // Unrecognized...throw error to caller
+      console.error(exception)
+      throw exception
+    }
+  }
+}
+
+// Create the 'messages' table
+async function createMessageTable() {
+  return await PostgresUtil.pool.query(`CREATE TABLE messages (
+    id          SERIAL PRIMARY KEY,
+    created_at  TIMESTAMP DEFAULT NOW(),
+    created_by  VARCHAR(30) REFERENCES app_users(handle),
+    message     VARCHAR(200)
+  )`)
 }
 
 module.exports = {

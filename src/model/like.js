@@ -20,7 +20,7 @@ async function getLikes() {
 async function addLike(handle, messageId) {
   try {
     const result = await PostgresUtil.pool.query(
-      'INSERT INTO messages (created_by, for_message) VALUES ($1::text, $2::int);', [handle, messageId])
+      'INSERT INTO likes (created_by, for_message) VALUES ($1::text, $2::int);', [handle, messageId])
     return result
   } catch (exception) {
     if (exception.code === '42P01') { // Table is missing so we'll create it and try again

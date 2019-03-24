@@ -49,16 +49,13 @@ async function getUser(handle) {
 
 async function getUsers() {
   try {
-    const result = await PostgresUtil.pool.query(
-      'SELECT * FROM app_users')
+    const result = await PostgresUtil.pool.query('SELECT * FROM app_users')
     return result.rows
   } catch (exception) {
-    if (exception.code === '42P01') {
-      // 42P01 - Table is missing so we'll create it and try again
+    if (exception.code === '42P01') { // 42P01 - Table is missing so we'll create it and try again
       await createUserTable()
       return getUsers()
-    } else {
-      // Unrecognized, throw error to caller
+    } else { // Unrecognized, throw error to caller
       console.error(exception)
       throw exception
     }
