@@ -47,7 +47,6 @@ router.post('/auth/sign-in', async function(req, res, next) {
 
 // Assign token to logged-in user
 function setSignedInCookie(res, handle) {
-  console.log(process.env.JWT_secret)
   const token = jwt.sign({handle: handle}, process.env.JWT_SECRET);
   cookiesArray = [];
   cookiesArray.push(cookie.serialize('token', token, {
@@ -55,11 +54,6 @@ function setSignedInCookie(res, handle) {
     maxAge: 60 * 60 * 24, // Token expires in 1 day
     sameSite: 'strict',
     path: '/',
-  }));
-  cookiesArray.push(cookie.serialize('handle', handle, {
-    httpOnly: true, 
-    sameSite: 'strict', 
-    path: '/'
   }));
   res.setHeader('Set-Cookie', cookiesArray);
 }
@@ -71,11 +65,6 @@ router.get('/auth/sign-out', function(req, res, next) {
     httpOnly: true,
     maxAge: 0, // Delete token
     path: '/',
-  }));
-  cookiesArray.push(cookie.serialize('handle', '', {
-    httpOnly: true, 
-    maxAge: 0, // Remove name 
-    path: '/'
   }));
   res.setHeader('Set-Cookie', cookiesArray);
   res.redirect('/')

@@ -13,7 +13,7 @@
       <% users.forEach(function(handle) { %>
         <li>
           <%= handle %>
-          <% if(handle === req.cookies.handle) { %>(you)<% } %>
+          <% if(handle === signedInAs) { %>(you)<% } %>
         </li>
       <% }) %>
     </ul>
