@@ -6,7 +6,7 @@ const logger = require('morgan')
 const app = express()
 
 // Import our '.env' file
-require('dotenv').config();
+// require('dotenv').config();
 
 // View-engine
 app.set('views', path.join(__dirname, 'views'))
