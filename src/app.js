@@ -3,8 +3,10 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
-
 const app = express()
+
+// Import our '.env' file
+require('dotenv').config();
 
 // View-engine
 app.set('views', path.join(__dirname, 'views'))
