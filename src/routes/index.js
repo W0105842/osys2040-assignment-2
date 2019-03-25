@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 
-/* GET home page. */
+// Home page [GET localhost:8000/]
 router.get('/', function(req, res, next) {
   res.render('index')
 })

@@ -3,15 +3,15 @@ const express = require('express')
 const Users = require('../model/users')
 const cookie = require('cookie')
 const jwt = require('jsonwebtoken')
-
+const dotenv = require('dotenv')
 var router = express.Router()
 
-// Go to "Sign up" page
+// Go to "Sign up" page [GET localhost:8000/auth/sign-up]
 router.get('/auth/sign-up', function(req, res, next) {
   res.render('sign-up')
 })
 
-// New user tries to sign up
+// New user tries to sign up [POST localhost:8000/auth/sign-up]
 router.post('/auth/sign-up', async function(req, res, next) {
   var handle = req.body.handle
   if(!handle) return next(createError(400, 'Missing handle!'))
@@ -26,12 +26,12 @@ router.post('/auth/sign-up', async function(req, res, next) {
   }
 })
 
-// Go to "Sign in" page
+// Go to "Sign in" page [GET localhost:8000/auth/sign-in]
 router.get('/auth/sign-in', function(req, res, next) {
   res.render('sign-in')
 })
 
-// User attempts to log in
+// User attempts to log in [POST localhost:8000/auth/sign-in]
 router.post('/auth/sign-in', async function(req, res, next) {
   var handle = req.body.handle
   if(!handle) return next(createError(400, 'Missing handle!'))
@@ -48,7 +48,7 @@ router.post('/auth/sign-in', async function(req, res, next) {
 
 // Assign token to logged-in user
 function setSignedInCookie(res, handle) {
-  const token = jwt.sign({handle: handle}, Users.JWT_SECRET)
+  const token = jwt.sign({handle: handle}, process.env.JWT_SECRET);
   cookiesArray = [];
   cookiesArray.push(cookie.serialize('token', token, {
     httpOnly: true,
@@ -64,7 +64,7 @@ function setSignedInCookie(res, handle) {
   res.setHeader('Set-Cookie', cookiesArray);
 }
 
-// Logging out
+// Logging out [GET localhost:8000/auth/sign-out]
 router.get('/auth/sign-out', function(req, res, next) {
   cookiesArray = [];
   cookiesArray.push(cookie.serialize('token', '', {
