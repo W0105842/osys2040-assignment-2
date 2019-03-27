@@ -20,7 +20,7 @@
                 <em>(by <%= message.created_by %>)</em><br> 
                 <form action="/chat/<%=message.id%>/like" method="post">
                   <input type="hidden" id="like" name="like" value="<%=!iLikeThis%>"><br>
-                  <button class="likeButton" type="submit">Like</button> 
+                  <% if(signedInAs) { %><button class="likeButton" type="submit">Like</button><% } %> 
                   <%= likesCount %> like<%= (likesCount == 0 || likesCount > 1) ? "s" : "" %>
                   <%= likeNotice %>
                 </form>
