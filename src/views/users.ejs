@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>
-      There are <%= users.length %> user<%= (!users.length || users.length > 1) ? "s" : "" %> registered on this site!
+      There <%= (!users.length || users.length > 1) ? "are " : "is " %><%= users.length %> user<%= (!users.length || users.length > 1) ? "s" : "" %> registered on this site!
     </h1>
     <ul>
       <% users.forEach(function(handle) { %>
