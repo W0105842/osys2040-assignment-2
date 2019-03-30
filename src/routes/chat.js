@@ -8,15 +8,14 @@ const router = express.Router()
 router.get('/chat', async function loadMessages(req, res, next) {
   const messages = await Chat.getMessages();
   const likes = await Like.getLikes();
-  let iLikeThis = true;
-  res.render('messages', {messages, likes, iLikeThis})
+  res.render('messages', {messages, likes})
 })
 
-// User likes a message [POST localhost:8000/chat/{id}/like]
+// User likes or un-likes a message [POST localhost:8000/chat/{id}/like]
 router.post('/chat/:messageId/like', async function userLikes(req, res, next) {
   if(!res.locals.signedInAs) return next(createError(401));
-  if(req.body.like) await Like.addLike(res.locals.signedInAs, req.params.messageId);
-  else if(!req.body.like) await Like.unLike(res.locals.signedInAs, req.params.messageId);
+  if(req.body.like == "green") await Like.addLike(res.locals.signedInAs, req.params.messageId);
+  else if(req.body.like == "orange") await Like.unLike(res.locals.signedInAs, req.params.messageId);
   res.redirect('/chat')
 })
 

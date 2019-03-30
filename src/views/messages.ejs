@@ -19,8 +19,8 @@
                 "<%= message.message %>"<br>
                 <em>(by <%= message.created_by %>)</em><br> 
                 <form action="/chat/<%=message.id%>/like" method="post">
-                  <input type="hidden" id="like" name="like" value="<%=!iLikeThis%>"><br>
-                  <% if(signedInAs) { %><button class="likeButton" type="submit">Like</button><% } %> 
+                  <input type="hidden" id="like" name="like" value="<%=(likeNotice == '(You already liked this.)') ? 'orange' : 'green' %>"><br>
+                  <% if(signedInAs) { %><button class="likeButton" type="submit" style="<%=(likeNotice == '(You already liked this.)') ? 'background-color: orange;' : ''%>"><%= (likeNotice != "(You already liked this.)") ? "Like" : "Unlike"%></button><% } %> 
                   <%= likesCount %> like<%= (likesCount == 0 || likesCount > 1) ? "s" : "" %>
                   <%= likeNotice %>
                 </form>

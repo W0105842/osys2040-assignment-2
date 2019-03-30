@@ -59,7 +59,4 @@ async function createLikeTable() {
   )`)
 }
 
-module.exports = {
-  addLike: addLike,
-  getLikes: getLikes,
-}
+module.exports = {addLike: addLike, unLike: unLike, getLikes: getLikes}
