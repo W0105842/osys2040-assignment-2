@@ -9,17 +9,21 @@
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "bunyan": "^1.8.12",
     "cookie": "^0.3.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "ejs-lint": "^0.3.0",
     "express": "~4.16.0",
+    "express-winston": "^3.1.0",
     "http-errors": "^1.6.3",
     "jsonwebtoken": "^8.5.0",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "morgan": "~1.9.0",
-    "pg": "^7.8.0"
+    "pg": "^7.8.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "dotenv": "^7.0.0",

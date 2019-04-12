@@ -1,12 +1,14 @@
 const createError = require('http-errors')
 const express = require('express')
-const path = require('path')
-const cookieParser = require('cookie-parser')
-const logger = require('morgan')
-const app = express()
+const expressWinston = require('express-winston');
+const winston = require('winston');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const app = express();
 
 // Import our '.env' file
-// require('dotenv').config();
+require('dotenv').config();
 
 // View-engine
 app.set('views', path.join(__dirname, 'views'))
@@ -26,11 +28,41 @@ app.use(function(req, res, next) {
   next()
 })
 
+// Logging
+expressWinston.requestWhitelist.push('signedInAs');
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.File({
+      filename: "src/utils/logging/AppLog.log",
+      handleExceptions: true,
+      level: "info",
+    })
+  ],
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.colorize(),
+    winston.format.json(),
+    winston.format.prettyPrint()
+  ),
+  colorize: true,
+  prettyPrint: true,
+}));
+
 // Routing
 app.use(require('./routes/index'))
 app.use(require('./routes/users.js'))
 app.use(require('./routes/auth.js'))
 app.use(require('./routes/chat.js'))
+
+// Logging errors
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console({
+      json: true,
+      colorize: true
+    })
+  ]
+}));
 
 // 404 errors
 app.use(function(req, res, next) {

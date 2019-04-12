@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sign In</title>
+    <title>B & B's of NS</title>
     <%- include('./includes/nav-links.ejs') %>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1>Sign In</h1>
+    <h1>Sign In to B & B's Nova Scotia</h1>
     <form action="/auth/sign-in" method="post">
       <div>
         <label for="handle">Handle:</label>
@@ -17,6 +17,7 @@
         <input type="password" id="password" name="password" >
       </div>
       <button type="submit">Sign In</button>
-    </form>
+    </form><br>
+    <img src="../bandbns4.jpeg" alt="cabot trail" />
   </body>
 </html>

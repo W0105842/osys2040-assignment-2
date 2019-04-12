@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sign Up</title>
+    <title>B & B's of NS</title>
     <nav><%- include('./includes/nav-links.ejs') %></nav>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1>Sign Up As A New User</h1>
+    <h1>Sign Up To Receive our B & B Newsletter!</h1>
     <form action="/auth/sign-up" method="post">
       <div>
         <label for="handle">Handle:</label>
@@ -17,6 +17,7 @@
         <input type="password" id="password" name="password" minlength="4" maxlength="30">
       </div>
       <button type="submit">Sign Up</button>
-    </form>
+    </form><br>
+    <img src="../bandbns5.jpeg" alt="girl on huge sandy beach" />
   </body>
 </html>

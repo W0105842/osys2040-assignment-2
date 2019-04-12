@@ -3,7 +3,7 @@ const PostgresUtil = require('../utils/PostgresUtil')
 // Fetch all messages
 async function getMessages() {
   try {
-    const result = await PostgresUtil.pool.query('SELECT * FROM messages')
+    const result = await PostgresUtil.pool.query('SELECT * FROM reviews')
     return result.rows
   } catch(exception) {
     if (exception.code === '42P01') { // 42P01 - Table is missing so we'll create it and try again
@@ -19,7 +19,7 @@ async function getMessages() {
 // Add a new message
 async function createMessage(handle, message) {
   try {
-    const result = await PostgresUtil.pool.query('INSERT INTO messages (created_by, message) VALUES ($1::text, $2::text);', [handle, message])
+    const result = await PostgresUtil.pool.query('INSERT INTO reviews (created_by, message) VALUES ($1::text, $2::text);', [handle, message])
     return result
   } catch (exception) {
     if (exception.code === '42P01') { // 42P01 - Table is missing so we'll create it and try again
@@ -34,7 +34,7 @@ async function createMessage(handle, message) {
 
 // Create the 'messages' table
 async function createMessageTable() {
-  return await PostgresUtil.pool.query(`CREATE TABLE messages (
+  return await PostgresUtil.pool.query(`CREATE TABLE reviews (
     id          SERIAL PRIMARY KEY,
     created_at  TIMESTAMP DEFAULT NOW(),
     created_by  VARCHAR(30) REFERENCES app_users(handle),

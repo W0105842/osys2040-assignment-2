@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Messages</title>
+    <title>B & B's of NS</title>
     <%- include('./includes/nav-links.ejs') %>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h1>So far, <%= messages.length %> message<%= (!messages.length || messages.length > 1) ? "s" : "" %><%= (!messages.length || messages.length > 1) ? " have" : " has" %> been posted :</h1>
+    <h1><%= messages.length %> review<%= (!messages.length || messages.length > 1) ? "s" : "" %><%= (!messages.length || messages.length > 1) ? " have" : " has" %> been posted :</h1>
+    <img src="bandbns3.jpeg" alt="yellow house" />
     <ul>
         <% messages.forEach(function(message) { 
             let likeNotice = "";
@@ -16,6 +17,7 @@
               if(like.created_by == signedInAs && like.for_message == message.id) likeNotice = "(You already liked this.)"
             })%> 
             <li>
+                <em><%= message.created_at %></em><br> 
                 "<%= message.message %>"<br>
                 <em>(by <%= message.created_by %>)</em><br> 
                 <form action="/chat/<%=message.id%>/like" method="post">
@@ -28,7 +30,7 @@
         <% }) %>
     </ul>
     <% if(signedInAs) { %>
-        <p>Hi <%= signedInAs %>, leave a message :</p>
+        <p>Hi <%= signedInAs %>, leave a review :</p>
         <form action="/chat/create-message" method="post">
           <div>
             <textarea type="text" id="message" name="message" cols="40" rows="2"></textarea>

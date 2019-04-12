@@ -37,3 +37,7 @@ li {
   font-size: 1.3em;
   margin: 5px 0px;
 }
+
+img {
+  border: solid 3px blue;
+}
